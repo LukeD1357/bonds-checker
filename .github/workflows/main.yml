@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  setup:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -20,23 +20,28 @@ jobs:
 
       - name: Install dependencies
         run: npm install
-      - name: Set up AWS credentials
-        run: |
-          mkdir ~/.aws
-          echo "[default]" > ~/.aws/credentials
-          echo "aws_access_key_id=$AWS_ACCESS_KEY_ID" >> ~/.aws/credentials
-          echo "aws_secret_access_key=$AWS_SECRET_ACCESS_KEY" >> ~/.aws/credentials
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      - name: Set up AWS region
-        run: |
-          echo "[default]" > ~/.aws/config
-          echo "region=eu-west-2" >> ~/.aws/config
-  deploy:
-    needs: setup
-    runs-on: ubuntu-latest
-
-    steps:
       - name: Deploy using Serverless Framework
         run: npm run deploy
+        env: 
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: eu-west-2
+          AWS_DEFAULT_REGION: eu-west-2
+      # - name: Set up AWS credentials
+      #   run: |
+      #     mkdir ~/.aws
+      #     echo "[default]" > ~/.aws/credentials
+      #     echo "aws_access_key_id=$AWS_ACCESS_KEY_ID" >> ~/.aws/credentials
+      #     echo "aws_secret_access_key=$AWS_SECRET_ACCESS_KEY" >> ~/.aws/credentials
+      #   env:
+      #     AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      #     AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      # - name: Set up AWS region
+      #   run: |
+      #     echo "[default]" > ~/.aws/config
+      #     echo "region=eu-west-2" >> ~/.aws/config
+  # deploy:
+  #   needs: setup
+  #   runs-on: ubuntu-latest
+
+    # steps:
