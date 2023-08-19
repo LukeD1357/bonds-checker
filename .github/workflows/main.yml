@@ -32,9 +32,7 @@ jobs:
       - name: Set up AWS region
         run: |
           echo "[default]" > ~/.aws/config
-          echo "region=$AWS_DEFAULT_REGION" >> ~/.aws/config
-        env:
-          AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+          echo "region=eu-west-2" >> ~/.aws/config
 
       - name: Deploy using Serverless Framework
         run: npm run deploy
