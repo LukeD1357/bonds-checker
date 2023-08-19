@@ -2,7 +2,6 @@ service: bonds-checker
 
 provider:
   name: aws
-  profile: personal
   runtime: nodejs18.x
   memorySize: 1024
   timeout: 30
