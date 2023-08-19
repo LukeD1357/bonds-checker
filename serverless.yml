@@ -1,0 +1,44 @@
+service: bonds-checker
+
+provider:
+  name: aws
+  profile: personal
+  runtime: nodejs18.x
+  memorySize: 1024
+  timeout: 30
+  stage: ${opt:stage, 'dev'}
+  region: ${opt:region, 'eu-west-2'}
+  apiGateway:
+    binaryMediaTypes:
+      - 'application/pdf'
+  environment:
+    stage: ${self:provider.stage}
+
+  iamRoleStatements:
+    - Effect: 'Allow'
+      Action: 
+        - dynamodb:* 
+      Resource: 
+        - "arn:aws:dynamodb:${self:provider.region}:${ssm:account-number}:table/bonds-winners"
+plugins:
+  - serverless-offline
+
+functions:
+  api:
+    handler: src/index.handler
+    events:
+      - http: { path: '/api/status', method: GET, cors: true }
+      - http: { path: '/check', method: POST, cors: true}
+resources:
+  Resources:
+    BondsWinnersTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: bonds-winners
+        AttributeDefinitions:
+          - AttributeName: date
+            AttributeType: S
+        BillingMode: PAY_PER_REQUEST
+        KeySchema:
+          - AttributeName: date
+            KeyType: HASH

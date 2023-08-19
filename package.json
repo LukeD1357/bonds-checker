@@ -1,0 +1,26 @@
+{
+  "name": "bonds-checker",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "start": "serverless offline --reloadHandler --aws-profile personal",
+    "deploy": "serverless deploy"
+  },
+  "type": "module",
+  "author": "Luke Davies",
+  "license": "ISC",
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.395.0",
+    "@aws-sdk/credential-providers": "^3.395.0",
+    "@aws-sdk/lib-dynamodb": "^3.395.0",
+    "axios": "^1.4.0",
+    "exceljs": "^4.3.0",
+    "express": "^4.18.2",
+    "express-async-errors": "^3.1.1",
+    "moment": "^2.29.4",
+    "pdfreader": "^3.0.0",
+    "serverless": "^3.34.0",
+    "serverless-http": "^3.2.0",
+    "serverless-offline": "^12.0.4"
+  }
+}
